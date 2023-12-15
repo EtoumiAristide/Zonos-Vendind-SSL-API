@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping(path = "/api/zonos-vending")
+@CrossOrigin(origins = "*")
 public class VendindAccessController {
 
     private String user;
@@ -150,10 +152,10 @@ public class VendindAccessController {
                 "    </request>\n" +
                 "    <evddetails>\n" +
                 "        <serialno>" + serialno + "</serialno>\n" +
-                "        <password>" + password + "</password>\n" +
+                "        <password>" + requestDTO.getUserPass() + "</password>\n" +
                 "        <deviceno>" + deviceno + "</deviceno>\n" +
                 "        <format maxlen=\"32\">2</format>\n" +
-                "        <userid>" + userid + "</userid>\n" +
+                "        <userid>" + requestDTO.getUserName() + "</userid>\n" +
                 "        <pincode>" + pincode + "</pincode>\n" +
                 "        <voucherdetails>\n" +
                 "            <vtype>" + vtype + "</vtype>\n" +
@@ -164,7 +166,7 @@ public class VendindAccessController {
                 "    </evddetails>\n" +
                 "</iceevdreq>";
 
-        System.out.println("Request: " + xmlDocument);
+        //System.out.println("Request: " + xmlDocument);
 
         int length = xmlDocument.length();
         String lengthString = String.format("%06d", length);
@@ -182,7 +184,7 @@ public class VendindAccessController {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                System.out.println("Response API: " + line);
+                //System.out.println("Response API: " + line);
 
                 //Recherche de la position du 1er caratère "<" trouvé
                 int pos = line.indexOf("<");
